@@ -258,19 +258,14 @@ namespace net_gen {
         public Node deserializeNode(dynamic element)
         {
             Contract.Ensures(Contract.Result<Node>() != null);
-            dynamic node = element.node;
             dynamic structure = element.structure;
-            Node newNode = new Node() {
-                id = Int32.Parse(element.id),
-                parent = Int32.Parse(element.parent),
-                node = new String(node)
-            };
+            Node newNode = initializeNode(element);
             Structure nodeStructure = null;
-            switch (node)
+            switch (element.node)
             {   
                 case "COMPILATION": 
                     {
-                        nodeStructure = initializeRoutine(structure);
+                        nodeStructure = initializeEntryPoint(structure);
                         break;
                     }
                 case "UNIT":
@@ -286,11 +281,85 @@ namespace net_gen {
                 case "VARIABLE":
                     {
                         nodeStructure = initializeVariable(structure);
+                        break;
+                    };
+
+                case "BODY": 
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "CALL":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "REFERENCE":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "LITERAL":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "LOOP":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "RELATIONAL":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "IF":
+                    {
+                        throw new NotImplementedException();
+                    };
+
+                case "STMT_IF_THEN":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "ASSIGNMENT":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "ADDITIVE":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "MULTIPLICATIVE":
+                    {
+                        throw new NotImplementedException();
+                    };
+                case "RETURN":
+                    {
+                        throw new NotImplementedException();
+                    };
+                default:
+                    {
+                        Console.Write(@"The node can't be identified yet...
+                        Sorry, but generator is still developing.");
+                        break;
                     }
 
             }
             newNode.structure = nodeStructure;
             return newNode;
+        }
+
+        private Structure initializeEntryPoint(dynamic structure)
+        {
+            
+            throw new NotImplementedException();
+        }
+
+        private Node initializeNode(dynamic element)
+        {
+            Contract.Ensures(Contract.Result<Node>() != null);
+            return new Node()
+            {
+                id = Int32.Parse(element.id),
+                parent = Int32.Parse(element.parent),
+                node = new String(element.node)
+            };
         }
 
         private Structure initializeVariable(dynamic structure)
